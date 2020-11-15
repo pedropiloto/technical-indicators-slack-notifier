@@ -1,0 +1,47 @@
+{
+  "name": "node-technical-indicators-notifier",
+  "version": "1.0.0",
+  "description": "Node Technical Indicators Notifier",
+  "main": "main.js",
+  "scripts": {
+    "start": "node app/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/poptartboy0/CryppledBot.git"
+  },
+  "keywords": [
+    "crypto",
+    "bot",
+    "coinbase-pro",
+    "btc"
+  ],
+  "author": "Pedro Piloto",
+  "license": "ISC",
+  "dependencies": {
+    "@bugsnag/js": "^7.5.1",
+    "axios": "^0.21.1",
+    "axios-rate-limit": "^1.3.0",
+    "big.js": "^6.0.1",
+    "body-parser": "^1.19.0",
+    "coinbase-pro": "^0.9.0",
+    "coinbase-pro-node": "^2.11.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fetch": "^1.1.0",
+    "logzio-nodejs": "^2.0.2",
+    "moment": "^2.29.1",
+    "mongoose": "^5.10.9",
+    "newrelic": "^7.0.0",
+    "pino": "^6.7.0",
+    "pino-pretty": "^4.3.0",
+    "smart-request-balancer": "^2.1.1",
+    "technicalindicators": "^3.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.13.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1"
+  }
+}
