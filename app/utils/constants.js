@@ -86,6 +86,8 @@ const SYMBOLS = ['AAPL',
   'NCLH',
   'JPBLU',
   'AAL',
+  'MA',
+  'V',
 ];
 const RSI_OVER_BOUGHT_LIMIT = 66;
 const RSI_OVER_SOLD_LIMIT = 34;
