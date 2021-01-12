@@ -88,6 +88,9 @@ const SYMBOLS = ['AAPL',
   'AAL',
   'MA',
   'V',
+  'UPWK',
+  'GIS',
+  'TRXC',
 ];
 const RSI_OVER_BOUGHT_LIMIT = 66;
 const RSI_OVER_SOLD_LIMIT = 34;
