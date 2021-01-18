@@ -1,5 +1,5 @@
 const pino = require('pino');
-const newrelic = require('newrelic');
+// const newrelic = require('newrelic');
 const logzio = `${process.env.LOGZIO_TOKEN}` ? require('logzio-nodejs').createLogger({
   token: `${process.env.LOGZIO_TOKEN}`,
   protocol: 'https',
@@ -10,7 +10,7 @@ const logzio = `${process.env.LOGZIO_TOKEN}` ? require('logzio-nodejs').createLo
 
 const logger = pino({ level: process.env.LOG_LEVEL || 'info', prettyPrint: { colorize: true } });
 const {
-  OPERATIONAL_LOG_TYPE, BUSINESS_LOG_TYPE, INFO_SEVERITY,
+  BUSINESS_LOG_TYPE, INFO_SEVERITY,
 } = require('./constants');
 
 const log = (params) => {
@@ -29,16 +29,6 @@ const log = (params) => {
   }
   if (logzio) {
     logzio.log(params);
-    if (process.env.NODE_ENV === 'production') {
-      if (params.transactional) {
-        if (params.type === BUSINESS_LOG_TYPE) {
-          newrelic.recordCustomEvent('BusinessEvent', params);
-        }
-        if (params.type === OPERATIONAL_LOG_TYPE) {
-          newrelic.recordCustomEvent('OperationalEvent', params);
-        }
-      }
-    }
   }
 };
 

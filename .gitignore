@@ -17,7 +17,7 @@ ch4ot1c Add .yarn/install-state.gz to Node.gitignore (#3407)
  58 contributors
 @stuartpb@shiftkey@SimonSiefke@TennyZhuang@venatoria@ro31337@Richienb@melonmanchan@gouthamve@jucrouzet@cheddar@arcresu
 116 lines (86 sloc)  1.77 KB
-  
+
 # Logs
 logs
 *.log
@@ -148,3 +148,5 @@ API
 Training
 Blog
 About
+
+.idea
