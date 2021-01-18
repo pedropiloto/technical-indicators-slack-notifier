@@ -44,7 +44,7 @@ const PublishSlackAlert = async (channel, message) => {
   });
 };
 
-const indicatorsToSlackView = (indicatorResults) => `| \`QUOTE => ${indicatorResults.current_quote}\` | \`RSI => ${indicatorResults.rsi}\` | \`BB_UPPER => ${indicatorResults.bb_upper}\` | \`BB_LOWER => ${indicatorResults.bb_lower}\` | \`SMA50 => ${indicatorResults.sma50}\` | \`SMA200 => ${indicatorResults.sma200}\` | \`DEATH_CROSS => ${indicatorResults.death_cross_200}\` | \`GOLDEN_CROSS => ${indicatorResults.golden_cross_200}\` |`;
+const indicatorsToSlackView = (indicatorResults) => `| \`QUOTE => ${indicatorResults.current_quote}\` | \`RSI => ${indicatorResults.rsi}\` | \`BB_UPPER => ${indicatorResults.bb_upper}\` | \`BB_LOWER => ${indicatorResults.bb_lower}\` | \`SMA50 => ${indicatorResults.sma50}\` | \`SMA200 => ${indicatorResults.sma200}\` | \`DEATH_CROSS => ${indicatorResults.death_cross_200}\` | \`GOLDEN_CROSS => ${indicatorResults.golden_cross_200}\` | \`LOW_TARGET => ${indicatorResults.low_target}\` | \`MEAN_TARGET => ${indicatorResults.mean_target}\` | \`MEDIAN_TARGET => ${indicatorResults.median_target}\` | \`HIGH_TARGET => ${indicatorResults.high_target}\` |`;
 
 const publishSellAlert = (indicatorResults, sellWeight) => {
   if (!notifications[indicatorResults.symbol]

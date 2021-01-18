@@ -52,6 +52,12 @@ const getQuote = async (symbol) => limiter.wrap(() => axios({
   headers: { 'X-Finnhub-Token': finnhubToken },
 }))();
 
+const getEstimate = async (symbol) => limiter.wrap(() => axios({
+  method: 'get',
+  url: `https://finnhub.io/api/v1/stock/price-target?symbol=${symbol}`,
+  headers: { 'X-Finnhub-Token': finnhubToken },
+}))();
+
 module.exports = {
-  getRSI, getQuote, getBollingerBands, getSMA,
+  getRSI, getQuote, getBollingerBands, getSMA, getEstimate,
 };

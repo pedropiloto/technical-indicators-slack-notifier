@@ -9,7 +9,7 @@ const {
 } = require('./utils/constants');
 const { decimalAdjust } = require('./utils/calculation');
 const {
-  getRSI, getQuote, getBollingerBands, getSMA,
+  getRSI, getQuote, getBollingerBands, getSMA, getEstimate,
 } = require('./gateways/finnhub-gateway');
 const {
   publishSellAlert, publishBuyAlert, publishDeathCrossSlackAlert, publishGoldenCrossSlackAlert,
@@ -65,18 +65,20 @@ const proccessResults = (indicatorResults) => {
 const analyseSymbol = async (symbol) => {
   let rsiResponse; let quoteResponse; let
     bollingerBandsResponse; let sma50Response;
-  let sma200Response;
+  let sma200Response; let estimateResponse;
   try {
     [rsiResponse,
       quoteResponse,
       bollingerBandsResponse,
       sma50Response,
-      sma200Response] = await Promise.all([
+      sma200Response,
+      estimateResponse] = await Promise.all([
       getRSI(symbol),
       getQuote(symbol),
       getBollingerBands(symbol),
       getSMA(symbol, 50),
       getSMA(symbol, 200),
+      getEstimate(symbol),
     ]);
   } catch (e) {
     log({
@@ -120,6 +122,10 @@ const analyseSymbol = async (symbol) => {
     sma_cross_check: smaCrossCheck,
     death_cross_200: smaCrossCheck === CROSS_DEATH_200,
     golden_cross_200: smaCrossCheck === CROSS_GOLDEN_200,
+    low_target: estimateResponse.data.targetLow,
+    mean_target: estimateResponse.data.targetMean,
+    median_target: estimateResponse.data.targetMedian,
+    high_target: estimateResponse.data.targetHigh,
   });
 };
 
