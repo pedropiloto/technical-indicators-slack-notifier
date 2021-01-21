@@ -81,4 +81,6 @@ module.exports = ['AAPL',
   'UPWK',
   'GIS',
   'TRXC',
+  'PG',
+  'VUZI',
 ];
