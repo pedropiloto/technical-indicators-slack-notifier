@@ -147,7 +147,7 @@ const start = async () => {
         message: 'finishing symbols analysis loop', type: OPERATIONAL, transactional: false,
       });
       // eslint-disable-next-line no-await-in-loop
-      await delay(3600000);
+      await delay(72000);
     }
     // await analyseSymbol('CRM');
   } catch (exception) {
