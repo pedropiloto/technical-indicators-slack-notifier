@@ -6,12 +6,12 @@ const Bottleneck = require('bottleneck');
 const finnhubToken = `${process.env.FINNHUB_TOKEN}`;
 
 const limiter = new Bottleneck({
-  reservoir: 20, // initial value
-  reservoirRefreshAmount: 20,
+  reservoir: 40, // initial value
+  reservoirRefreshAmount: 40,
   reservoirRefreshInterval: 60 * 1000, // must be divisible by 250
 
   // also use maxConcurrent and/or minTime for safety
-  maxConcurrent: 5,
+  maxConcurrent: 1,
   minTime: 1000, // pick a value that makes sense for your use case
 });
 

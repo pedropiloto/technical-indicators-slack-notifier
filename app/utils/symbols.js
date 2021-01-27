@@ -92,4 +92,6 @@ module.exports = ['AAPL',
   'TSM',
   'CIM',
   'AMTX',
+  'PEP',
+  'KO',
 ];
