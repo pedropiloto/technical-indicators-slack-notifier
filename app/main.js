@@ -27,7 +27,7 @@ const proccessResults = (indicatorResults) => {
     const buyWeight = DecisionEngine.evaluate(indicatorResults, BUY_RULE);
 
     if (sellWeight > 0) publishSellAlert(indicatorResults, sellWeight);
-    if (buyWeight > 0) publishBuyAlert(indicatorResults, buyWeight);
+    if (buyWeight > -20) publishBuyAlert(indicatorResults, buyWeight);
     if (indicatorResults.death_cross_200 === true) publishDeathCrossSlackAlert(indicatorResults);
     if (indicatorResults.golden_cross_200 === true) publishGoldenCrossSlackAlert(indicatorResults);
 
