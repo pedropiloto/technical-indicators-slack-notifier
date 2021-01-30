@@ -15,7 +15,6 @@ const {
   publishSellAlert, publishBuyAlert, publishDeathCrossSlackAlert, publishGoldenCrossSlackAlert,
 } = require('./gateways/slack-gateway');
 const { verifySMA } = require('./sma-cross-tracker');
-const SYMBOLS = require('./utils/symbols');
 const { SELL_RULE, BUY_RULE } = require('./utils/rules');
 const DecisionEngine = require('./decision-engine');
 
@@ -130,18 +129,19 @@ const analyseSymbol = async (symbol) => {
 };
 
 const start = async () => {
+  const symbols = process.env.SYMBOLS.split(',');
   try {
     while (true) {
       log({
         message: 'starting symbols analysis loop', type: OPERATIONAL, transactional: false,
       });
       // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < SYMBOLS.length; i++) {
+      for (let i = 0; i < symbols.length; i++) {
         log({
-          message: `analysing ${SYMBOLS[i]}`, type: OPERATIONAL, transactional: true,
+          message: `analysing ${symbols[i]}`, type: OPERATIONAL, transactional: true,
         });
         // eslint-disable-next-line no-await-in-loop
-        await analyseSymbol(SYMBOLS[i]);
+        await analyseSymbol(symbols[i]);
       }
       log({
         message: 'finishing symbols analysis loop', type: OPERATIONAL, transactional: false,
