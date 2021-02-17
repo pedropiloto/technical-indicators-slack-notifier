@@ -4,6 +4,8 @@ const axios = require('axios');
 const Bottleneck = require('bottleneck');
 
 const finnhubToken = `${process.env.FINNHUB_TOKEN}`;
+const headers = {};
+headers['X-Finnhub-Token'] = finnhubToken;
 
 const limiter = new Bottleneck({
   reservoir: 40, // initial value
@@ -19,10 +21,11 @@ const limiter = new Bottleneck({
 const getRSI = async (symbol) => {
   const now = Date.now();
   const sixMonthsAgo = moment().subtract(6, 'months').unix();
+
   return limiter.wrap(() => axios({
     method: 'get',
     url: `https://finnhub.io/api/v1/indicator?symbol=${symbol}&resolution=D&from=${sixMonthsAgo}&to=${now}&indicator=rsi&timeperiod=14`,
-    headers: { 'X-Finnhub-Token': finnhubToken },
+    headers,
   }))();
 };
 
@@ -32,7 +35,7 @@ const getBollingerBands = async (symbol) => {
   return limiter.wrap(() => axios({
     method: 'get',
     url: `https://finnhub.io/api/v1/indicator?symbol=${symbol}&resolution=D&from=${sixMonthsAgo}&to=${now}&indicator=bbands&timeperiod=20`,
-    headers: { 'X-Finnhub-Token': finnhubToken },
+    headers,
   }))();
 };
 
@@ -42,20 +45,20 @@ const getSMA = async (symbol, timePeriod) => {
   return limiter.wrap(() => axios({
     method: 'get',
     url: `https://finnhub.io/api/v1/indicator?symbol=${symbol}&resolution=D&from=${sixMonthsAgo}&to=${now}&indicator=sma&timeperiod=${timePeriod}`,
-    headers: { 'X-Finnhub-Token': finnhubToken },
+    headers,
   }))();
 };
 
 const getQuote = async (symbol) => limiter.wrap(() => axios({
   method: 'get',
   url: `https://finnhub.io/api/v1/quote?symbol=${symbol}`,
-  headers: { 'X-Finnhub-Token': finnhubToken },
+  headers,
 }))();
 
 const getEstimate = async (symbol) => limiter.wrap(() => axios({
   method: 'get',
   url: `https://finnhub.io/api/v1/stock/price-target?symbol=${symbol}`,
-  headers: { 'X-Finnhub-Token': finnhubToken },
+  headers,
 }))();
 
 module.exports = {
