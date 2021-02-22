@@ -9,7 +9,7 @@ headers['X-Finnhub-Token'] = finnhubToken;
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 2000, // pick a value that makes sense for your use case
+  minTime: 2600, // pick a value that makes sense for your use case
 });
 
 // eslint-disable-next-line import/prefer-default-export
