@@ -8,13 +8,8 @@ const headers = {};
 headers['X-Finnhub-Token'] = finnhubToken;
 
 const limiter = new Bottleneck({
-  reservoir: 20, // initial value
-  reservoirRefreshAmount: 20,
-  reservoirRefreshInterval: 60 * 1000, // must be divisible by 250
-
-  // also use maxConcurrent and/or minTime for safety
   maxConcurrent: 1,
-  minTime: 1600, // pick a value that makes sense for your use case
+  minTime: 2000, // pick a value that makes sense for your use case
 });
 
 // eslint-disable-next-line import/prefer-default-export
