@@ -124,46 +124,44 @@ const analyseSymbol = async (symbol) => {
 
 const start = async () => {
   const symbols = process.env.SYMBOLS.split(',');
-  try {
-    while (true) {
+  while (true) {
+    log({
+      message: 'starting symbols analysis loop', type: OPERATIONAL, transactional: false,
+    });
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < symbols.length; i++) {
       log({
-        message: 'starting symbols analysis loop', type: OPERATIONAL, transactional: false,
-      });
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < symbols.length; i++) {
-        log({
-          message: `analysing ${symbols[i]}`, type: OPERATIONAL, transactional: true,
-        });
-        // eslint-disable-next-line no-await-in-loop
-        await analyseSymbol(symbols[i]);
-      }
-      log({
-        message: 'finishing symbols analysis loop', type: OPERATIONAL, transactional: false,
+        message: `analysing ${symbols[i]}`, type: OPERATIONAL, transactional: true,
       });
       // eslint-disable-next-line no-await-in-loop
-      await delay(72000);
+      await analyseSymbol(symbols[i]);
     }
-    // await analyseSymbol('CRM');
-  } catch (exception) {
-    const message = 'Error occured in bot, shutting down. Check the logs for more information.';
-    const error = exception.toString();
-    const stackTrace = exception.stack;
-
     log({
-      message,
-      error,
-      errorr_trace: stackTrace,
-      type: OPERATIONAL,
-      transactional: true,
-      severity: ERROR,
+      message: 'finishing symbols analysis loop', type: OPERATIONAL, transactional: false,
     });
-
-    sendAndCloseLogzio();
-    process.exit(1);
+    // eslint-disable-next-line no-await-in-loop
+    await delay(720000);
   }
+  // await analyseSymbol('CRM');
 };
 
 if (process.env.BUSGNAG_API_KEY) {
   Bugsnag.start({ apiKey: `${process.env.BUSGNAG_API_KEY}` });
 }
-start();
+try {
+  start();
+} catch (exception) {
+  const message = 'Error occured in bot, shutting down. Check the logs for more information.';
+  const error = exception.toString();
+  const stackTrace = exception.stack;
+
+  log({
+    message,
+    error,
+    errorr_trace: stackTrace,
+    type: OPERATIONAL,
+    transactional: true,
+    severity: ERROR,
+  });
+  start();
+}
