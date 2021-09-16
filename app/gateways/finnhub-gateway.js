@@ -9,7 +9,7 @@ headers['X-Finnhub-Token'] = finnhubToken;
 
 const limiter = new Bottleneck({
   maxConcurrent: 1,
-  minTime: 5000, // pick a value that makes sense for your use case
+  minTime: 6000, // pick a value that makes sense for your use case
 });
 
 // eslint-disable-next-line import/prefer-default-export
@@ -37,6 +37,7 @@ const getBollingerBands = async (symbol) => {
 const getSMA = async (symbol, timePeriod) => {
   const now = Date.now();
   const sixMonthsAgo = moment().subtract(300, 'days').unix();
+  console.log(`https://finnhub.io/api/v1/indicator?symbol=${symbol}&resolution=D&from=${sixMonthsAgo}&to=${now}&indicator=sma&timeperiod=${timePeriod}`)
   return limiter.wrap(() => axios({
     method: 'get',
     url: `https://finnhub.io/api/v1/indicator?symbol=${symbol}&resolution=D&from=${sixMonthsAgo}&to=${now}&indicator=sma&timeperiod=${timePeriod}`,

@@ -24,15 +24,15 @@ const SELL_RULE = [
     value: CURRENT_QUOTE,
     assert_type: PERCENTAGE_VARIANCE,
     weight: 0.5,
-  },
+  }
 
-  {
-    metric: 'sma200',
-    operator: BELOW_OPERATOR,
-    value: CURRENT_QUOTE,
-    assert_type: PERCENTAGE_VARIANCE,
-    weight: 0.2,
-  },
+  // {
+  //   metric: 'sma200',
+  //   operator: BELOW_OPERATOR,
+  //   value: CURRENT_QUOTE,
+  //   assert_type: PERCENTAGE_VARIANCE,
+  //   weight: 0.2,
+  // },
 ];
 
 const BUY_RULE = [
@@ -59,13 +59,13 @@ const BUY_RULE = [
     weight: 1,
   },
 
-  {
-    metric: 'sma200',
-    operator: ABOVE_OPERATOR,
-    value: CURRENT_QUOTE,
-    assert_type: PERCENTAGE_VARIANCE,
-    weight: 0.5,
-  },
+  // {
+  //   metric: 'sma200',
+  //   operator: ABOVE_OPERATOR,
+  //   value: CURRENT_QUOTE,
+  //   assert_type: PERCENTAGE_VARIANCE,
+  //   weight: 0.5,
+  // },
 ];
 
 module.exports = {

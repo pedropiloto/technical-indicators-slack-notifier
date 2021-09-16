@@ -27,8 +27,6 @@ const proccessResults = (indicatorResults) => {
 
     if (sellWeight > 0) publishSellAlert(indicatorResults, sellWeight);
     if (buyWeight > -20) publishBuyAlert(indicatorResults, buyWeight);
-    if (indicatorResults.death_cross_200 === true) publishDeathCrossSlackAlert(indicatorResults);
-    if (indicatorResults.golden_cross_200 === true) publishGoldenCrossSlackAlert(indicatorResults);
 
     log({
       message: `Resume for symbol ${indicatorResults.symbol}`,
@@ -37,9 +35,6 @@ const proccessResults = (indicatorResults) => {
       bb_lower: indicatorResults.bb_lower,
       current_quote: indicatorResults.current_quote,
       sma50: indicatorResults.sma50,
-      sma200: indicatorResults.sma200,
-      death_cross_200: indicatorResults.sma_cross_check === CROSS_DEATH_200,
-      golden_cross_200: indicatorResults.sma_cross_check === CROSS_GOLDEN_200,
       sell_weight: sellWeight,
       buy_weight: buyWeight,
       type: OPERATIONAL,
@@ -62,27 +57,54 @@ const proccessResults = (indicatorResults) => {
 };
 
 const analyseSymbol = async (symbol) => {
-  let rsiResponse; let quoteResponse; let
-    bollingerBandsResponse; let sma50Response;
-  let sma200Response;
+
+  let rsiResponse
+  let quoteResponse
+  let bollingerBandsResponse
+  let sma50Response
+  let sma200Response
+
   try {
-    [rsiResponse,
-      quoteResponse,
-      bollingerBandsResponse,
-      sma50Response,
-      sma200Response] = await Promise.all([
-      getRSI(symbol),
-      getQuote(symbol),
-      getBollingerBands(symbol),
-      getSMA(symbol, 50),
-      getSMA(symbol, 200),
-    ]);
+    rsiResponse = await getRSI(symbol)
+
   } catch (e) {
     log({
-      message: 'Error during retrieving indicators', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
+      message: 'Error during retrieving rsi indicator', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
     });
     return;
   }
+  try {
+    quoteResponse = await getQuote(symbol)
+  } catch (e) {
+    log({
+      message: 'Error during retrieving quote', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
+    });
+    return;
+  }
+  try {
+    bollingerBandsResponse = await getBollingerBands(symbol)
+  } catch (e) {
+    log({
+      message: 'Error during retrieving bollingerBands indicator', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
+    });
+    return;
+  }
+  try {
+    sma50Response = await getSMA(symbol, 50)
+  } catch (e) {
+    log({
+      message: 'Error during retrieving sma50 indicator', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
+    });
+    return;
+  }
+  // try {
+  //   sma200Response = await getSMA(symbol, 200)
+  // } catch (e) {
+  //   log({
+  //     message: 'Error during retrieving sma200 indicator', error: e.toString(), type: OPERATIONAL, transactional: false, severity: ERROR,
+  //   });
+  //   return;
+  // }
   const rsiValues = rsiResponse.data.rsi;
 
   if (!rsiValues) {
@@ -104,9 +126,7 @@ const analyseSymbol = async (symbol) => {
   ], -2);
 
   const sma50 = decimalAdjust('floor', sma50Response.data.sma[sma50Response.data.sma.length - 1], -2);
-  const sma200 = decimalAdjust('floor', sma200Response.data.sma[sma200Response.data.sma.length - 1], -2);
-
-  const smaCrossCheck = verifySMA(symbol, sma50, sma200);
+  // const sma200 = decimalAdjust('floor', sma200Response.data.sma[sma200Response.data.sma.length - 1], -2);
 
   proccessResults({
     symbol,
@@ -114,11 +134,7 @@ const analyseSymbol = async (symbol) => {
     bb_upper: bollingerBandsUpper,
     bb_lower: bollingerBandsLower,
     current_quote: currentQuote,
-    sma50,
-    sma200,
-    sma_cross_check: smaCrossCheck,
-    death_cross_200: smaCrossCheck === CROSS_DEATH_200,
-    golden_cross_200: smaCrossCheck === CROSS_GOLDEN_200,
+    sma50
   });
 };
 
